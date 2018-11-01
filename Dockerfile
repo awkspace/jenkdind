@@ -2,7 +2,9 @@ FROM jenkins/jenkins:lts-alpine
 
 USER root
 
-ADD https://github.com/just-containers/s6-overlay/releases/download/v1.21.7.0/s6-overlay-amd64.tar.gz /tmp/
+ADD https://github.com/just-containers/s6-overlay/releases/download\
+/v1.21.7.0/s6-overlay-amd64.tar.gz \
+/tmp/
 
 RUN apk add --no-cache docker shadow \
  && gpasswd docker -a jenkins
