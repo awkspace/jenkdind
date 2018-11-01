@@ -1,28 +1,20 @@
-# JenkDind: A Dockerized Jenkins with Dind
+# JenkDIND: A Dockerized Jenkins with DIND
 
-This is a simple image based on `jenkins/jenkins:lts-alpine` with Docker
-installed beside Jenkins. This means the Jenkins running inside has full Docker
-capabilities – building, running, pushing, and using as agents for Declarative
-Pipeline. It’s meant for people who want to run a single Jenkins instance with
-Docker in as self-contained a manner as possible. It is in no way recommended
-for any serious workload.
+This is a simple image based on `jenkins/jenkins:lts-alpine` with DIND (Docker-
+in-Docker) running alongide Jenkins. All of Jenkins’s Docker capabilities should
+be operational by default.
 
-JenkDind is powered by
+JenkDIND is powered by
 [s6-overlay](https://github.com/just-containers/s6-overlay) and a healthy
-disrespect for single-process Docker design patterns.
-
-There are other ways to let a containerized Jenkins instance use Docker – like
-mounting the host Docker socket or running DIND as a sidecar container – but
-this is one of the least-effort, most-isolated ways to get the job done. The
-entire build system lives in a single container that can be shut down at any
-moment without leaving cruft behind on the Docker host itself, and two Docker
-volumes allow for easy backup (in the case of `jenkins_home`) or cache clearing
-(in the case of `docker_store`).
+disrespect for the single-process Docker design pattern.
 
 Jenkins runs as uid 1000 (`jenkins`) with no sudo privileges and Docker runs as
 uid 1 (`root`) to mimic a “real” installation as closely as possible. It’s
-intended that anything which would work in a proper installation would also work
-in JenkDind.
+expected that anything which would work in a proper installation should also
+work in JenkDIND.
+
+For further reading, see the associated blog post “[Jenkins in a
+Box](https://awk.space/blog/jenkins-in-a-box).”
 
 ## Usage
 
@@ -41,19 +33,23 @@ docker run \
 ## Backup
 
 The included `backup.sh` stops the `jenkins` container and outputs a compressed
-`.tar.gz` of the `jenkins_home` to standard out. It produces a stream instead of
-a file since JenkDind is intended to be run in environments where resources
-might be scarce, including drive space. The script output can therefore be
-directly streamed to a remote location such as S3.
+`.tar.gz` of the `jenkins_home` to standard out. The script output can therefore
+be streamed directly to a remote location such as S3 and avoid taking up
+precious local disk space.
 
 ``` sh
 # Backup to S3
 ./backup.sh | aws s3 cp - s3://my-backup-bucket/jenkins-`date +%s`.tar.gz
 
-# Backup to local file
+# Backup to local file, if space is not a concern
 ./backup.sh > /mnt/backup/jenkins-`date +%s`.tar.gz
 ```
 
+## Clear Docker cache
+
+To clear the Docker cache, stop the container, `docker volume rm docker_store`,
+and start the container again.
+
 ## License
 
-JenkDind is licensed under MIT.
+JenkDIND is licensed under [MIT](LICENSE).
