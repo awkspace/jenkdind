@@ -1,8 +1,8 @@
 # JenkDIND: A Dockerized Jenkins with DIND
 
 This is a simple image based on `jenkins/jenkins:lts-alpine` with DIND (Docker-
-in-Docker) running alongide Jenkins. All of Jenkins’s Docker capabilities should
-be operational by default.
+in-Docker) running alongside Jenkins. All of Jenkins’s Docker capabilities
+should be operational by default.
 
 JenkDIND is powered by
 [s6-overlay](https://github.com/just-containers/s6-overlay) and a healthy
