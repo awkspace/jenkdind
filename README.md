@@ -1,6 +1,6 @@
 # JenkDIND: A Dockerized Jenkins with DIND
 
-This is a simple image based on `jenkins/jenkins:lts-alpine` with DIND (Docker-
+This is a simple image based on `jenkins/jenkins:alpine` with DIND (Docker-
 in-Docker) running alongside Jenkins. All of Jenkins’s Docker capabilities
 should be operational by default.
 
