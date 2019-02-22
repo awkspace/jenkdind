@@ -14,11 +14,15 @@ RUN mkdir -p /etc/services.d/docker /etc/services.d/jenkins \
     "#!/usr/bin/execlineb -P"\
     "dockerd" > /etc/services.d/docker/run \
  && printf "%s\n%s\n%s\n%s\n%s"\
-    "#!/usr/bin/execlineb -P"\
-    "with-contenv"\
-    "s6-setuidgid jenkins"\
-    "s6-env HOME=/var/jenkins_home"\
-    "/usr/local/bin/jenkins.sh" > /etc/services.d/jenkins/run \
+    '#!/usr/bin/execlineb -P'\
+    'with-contenv'\
+    's6-setuidgid jenkins'\
+    's6-env HOME=/var/jenkins_home'\
+    '/usr/local/bin/jenkins.sh' > /etc/services.d/jenkins/run \
+  && printf "%s\n%s\n%s"\
+    '#!/usr/bin/execlineb -S1'\
+    'if { s6-test ${1} -eq 0 }'\
+    's6-svscanctl -t /var/run/s6/services' > /etc/services.d/jenkins/finish \
  && gunzip -c /tmp/s6-overlay-amd64.tar.gz | tar -xf - -C /
 
 ENTRYPOINT ["/init"]
