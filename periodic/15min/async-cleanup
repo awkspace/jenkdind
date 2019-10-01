@@ -1,0 +1,2 @@
+#!/bin/sh
+nice find /var/jenkins_home/workspace -type d -regex ".\+_ws-cleanup_[0-9]\+" -prune -exec rm -rf {} \;
