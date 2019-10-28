@@ -3,7 +3,7 @@ FROM jenkins/jenkins:alpine
 USER root
 
 ADD https://github.com/just-containers/s6-overlay/releases/download\
-/v1.21.7.0/s6-overlay-amd64.tar.gz \
+/v1.22.1.0/s6-overlay-amd64.tar.gz \
 /tmp/
 
 COPY services.d /etc/services.d
