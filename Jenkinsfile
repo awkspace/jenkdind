@@ -11,7 +11,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    dockerImage = docker.build("awkspace/jenkdind:latest", "--pull .")
+                    dockerImage = docker.build("awkspace/jenkdind:latest", "--pull --no-cache .")
                 }
             }
         }
