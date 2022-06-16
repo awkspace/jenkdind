@@ -1,0 +1,8 @@
+#!/bin/sh
+[ -z "$MAX_BUILD_AGE" ] && exit 0
+nice find /var/jenkins_home/jobs \
+    -type f \
+    -regex '.\+/builds/[0-9]\+/build.xml' \
+    -ctime "+$MAX_BUILD_AGE" \
+    -exec /bin/sh \
+    -c 'rm -rf "$(dirname "{}")"' \;

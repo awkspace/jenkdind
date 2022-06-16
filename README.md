@@ -22,6 +22,7 @@ Box](https://awk.space/blog/jenkins-in-a-box).”
 docker run \
   --name jenkins \
   -e TZ=America/New_York \
+  -e MAX_BUILD_AGE=30 \
   -p 8080:8080 \
   -v jenkins_home:/var/jenkins_home \
   -v docker_store:/var/lib/docker \
@@ -29,6 +30,14 @@ docker run \
   -d \
   awkspace/jenkdind
 ```
+
+## Options
+
+### `MAX_BUILD_AGE`
+
+How long, in days, old builds should be kept.
+
+If unset, builds will remain indefinitely.
 
 ## Backup
 
